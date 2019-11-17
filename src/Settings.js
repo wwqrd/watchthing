@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 const defaultSettings = {
   host: 'io.adafruit.com',
   port: '8883',
-  user: null, //window.localStorage.getItem('api_user'),
-  key: null, // window.localStorage.getItem('api_key'),
+  user: null,
+  key: null,
 };
 
 const SettingsContext = React.createContext(defaultSettings);

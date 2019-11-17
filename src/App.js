@@ -1,15 +1,15 @@
 import React from 'react';
 import Settings, { SettingsContext } from './Settings';
+import Feeds from './Feeds';
 import './App.css';
 
 function App() {
   return (
     <Settings>
       <div className="App">
-        Hello world
         <SettingsContext.Consumer>
-          {(foo) => (
-            <div>{JSON.stringify(foo)}</div>
+          {(connectionSettings) => (
+            <Feeds connectionSettings={connectionSettings} />
           )}
         </SettingsContext.Consumer>
       </div>
