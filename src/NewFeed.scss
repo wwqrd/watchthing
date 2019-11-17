@@ -1,0 +1,28 @@
+.new-feed {
+  padding: 0 1rem;
+  input {
+    border: 2px solid black;
+    line-height: 2rem;
+    font-size: 1rem;
+    margin: 0 0 0 1rem;
+    outline: none;
+    padding: 0 1rem;
+  }
+
+  label {
+    padding: 0.5rem 0;
+    line-height: 2rem;
+    font-size: 1rem;
+    margin: 0 1.5rem 0 0;
+    display: inline-block;
+  }
+
+  button {
+    outline: none;
+    border: 2px solid black;
+    color: white;
+    background-color: black;
+    line-height: 2rem;
+    font-size: 1rem;
+  }
+}

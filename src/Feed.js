@@ -8,23 +8,30 @@ const getRandomRange = (min, max) =>
 const getRandomColor = () =>
 `rgb(${getRandomRange(50, 150)}, ${getRandomRange(50, 150)}, ${getRandomRange(50, 150)})`;
 
-const Feed = ({ name, data }) => {
+const Feed = ({ feed, data, unit, decimals }) => {
   const [color, setColor] = useState({});
 
   useEffect(() => {
     setColor(getRandomColor());
-  }, [name]);
+  }, [feed]);
+
+  const lastValue = data[data.length - 1];
 
   return (
     <div className="feed" style={{ backgroundColor: color }}>
       <div className="reading">
-        <div className="value">{data[data.length - 1]}</div>
-        <div className="unit">c</div>
+        <div className="value">{lastValue.toFixed(decimals)}</div>
+        <div className="unit">{unit}</div>
       </div>
-      <div className="name">{name}</div>
+      <div className="name">{feed}</div>
       <Chart data={data} />
     </div>
   );
 }
+
+Feed.defaultProps = {
+  unit: 'unit',
+  decimals: 0,
+};
 
 export default Feed;
