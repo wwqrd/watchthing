@@ -9,7 +9,7 @@ function App() {
       <div className="App">
         <SettingsContext.Consumer>
           {(connectionSettings) => {
-            if(!connectionSettings.user || !connectionSettings.key) {
+            if (!connectionSettings.user || !connectionSettings.key) {
               return (
                 <div>
                   <h2>First run</h2>

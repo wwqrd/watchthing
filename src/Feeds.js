@@ -18,8 +18,6 @@ const feeds = [
   }
 ];
 
-let foo = false;
-
 const bufferAsFloat = (buffer) =>
   Number.parseFloat(buffer.toString());
 
@@ -36,21 +34,13 @@ const Feeds = ({ connectionSettings }) => {
       }));
     }
 
-    if (foo === true) { console.log('betrayed'); return; }
-
     console.log('connecting', connectionSettings);
-
-    if (!true) {
-      return;
-    }
 
     if (!connectionSettings.user || !connectionSettings.key || !connectionSettings.host) {
       return;
     }
 
     const client = mqtt.connect(`mqtts://${connectionSettings.host}`, { username: connectionSettings.user, password: connectionSettings.key });
-
-    foo = true;
 
     client.on('error', (e) => {
       console.log('ERROR', e);
