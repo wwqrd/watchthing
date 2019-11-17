@@ -8,9 +8,20 @@ function App() {
     <Settings>
       <div className="App">
         <SettingsContext.Consumer>
-          {(connectionSettings) => (
-            <Feeds connectionSettings={connectionSettings} />
-          )}
+          {(connectionSettings) => {
+            if(!connectionSettings.user || !connectionSettings.key) {
+              return (
+                <div>
+                  <h2>First run</h2>
+                  <p>Configure app with query string:</p>
+                  <p>{'/?user={ADAFRUIT_USER}&amp;key={ADAFRUIT_KEY}'}</p>
+                  <p><em>Key will be saved in localStorage</em></p>
+                </div>
+              );
+            }
+
+            return <Feeds connectionSettings={connectionSettings} />;
+          }}
         </SettingsContext.Consumer>
       </div>
     </Settings>
