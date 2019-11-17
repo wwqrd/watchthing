@@ -8,6 +8,8 @@ const initialFeed = {
 };
 
 const NewFeed = ({ onSave }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const [feedOptions, setFeedOptions] = useState(initialFeed);
 
   const handleChange = (e) => {
@@ -27,23 +29,43 @@ const NewFeed = ({ onSave }) => {
   const handleSave = () => {
     onSave(feedOptions);
     setFeedOptions(initialFeed);
+    setIsOpen(false);
   }
 
+  const handleOpen = () => {
+    setIsOpen(true);
+  }
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  }
+
+  const className = isOpen ? 'new-feed new-feed--is-open' : 'new-feed';
+
   return (
-    <div className="new-feed">
-      <label>
-        Feed
-        <input type="text" placeholder="feed" value={feedOptions.feed} name="feed" onChange={handleChange} />
-      </label>
-      <label>
-        Units
-        <input type="text" placeholder="unit" value={feedOptions.unit} name="unit" onChange={handleChange} />
-      </label>
-      <label>
-        Decimals
-        <input type="number" placeholder="decimals" value={feedOptions.decimals} name="decimals" onChange={handleChange} />
-      </label>
-      <button type="button" onClick={handleSave}>Add</button>
+    <div className={className}>
+      <div className="form">
+        <label>
+          Feed
+          <input type="text" placeholder="feed" value={feedOptions.feed} name="feed" onChange={handleChange} />
+        </label>
+        <label>
+          Units
+          <input type="text" placeholder="unit" value={feedOptions.unit} name="unit" onChange={handleChange} />
+        </label>
+        <label>
+          Decimals
+          <input type="number" placeholder="decimals" value={feedOptions.decimals} name="decimals" onChange={handleChange} />
+        </label>
+        <div className="controls">
+          <button type="button" onClick={handleSave}>Add Feed</button>
+          <button className="cancel" type="button" onClick={handleCancel}>Cancel</button>
+        </div>
+      </div>
+
+      <div className="open">
+        <button type="button" onClick={handleOpen}>Add new feed</button>
+      </div>
     </div>
   );
 }
