@@ -1,31 +1,53 @@
 import React, { Component } from 'react';
+import * as R from 'ramda';
+
+const STORAGE_KEY = 'watchthing';
+
+const settings = [
+  'connection.host',
+  'connection.port',
+  'connection.user',
+  'connection.key',
+];
 
 const defaultSettings = {
-  host: 'io.adafruit.com',
-  port: '8883',
-  user: null,
-  key: null,
+  connection: {
+    host: 'io.adafruit.com',
+    port: '8883',
+  },
 };
 
-const SettingsContext = React.createContext(defaultSettings);
+const SettingsContext = React.createContext({
+  settings: null,
+  updateSettings: () => {},
+});
 
-const getSetting = (name) => {
+const loadSetting = (name) => {
   const settingsQuery = new URLSearchParams(window.location.search);
+  const storedSettings = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '{}');
 
-  if (settingsQuery.get(name)) {
-    window.localStorage.setItem(name, settingsQuery.get(name));
-  }
+  const namePath = R.lensPath(name.split('.'));
+  const storedSetting = R.view(namePath, storedSettings);
+  const setting = settingsQuery.get(name) || storedSetting;
 
-  return window.localStorage.getItem(name);
+  if (!setting) { return null; }
+
+  return setting;
 };
 
-const asSettingObject = (name, value) => {
-  if (!value) { return {}; }
-  return { [name]: value };
-}
+const loadSettings = (initialSettings = defaultSettings) =>
+  settings.reduce(
+    (acc, key) => {
+      const path = key.split('.');
+      const value = loadSetting(key);
+      if (!value) { return acc; }
+      return R.assocPath(path, value, acc);
+    },
+    initialSettings,
+  );
 
-const getSettingObject = name =>
-  asSettingObject(name, getSetting(name));
+const saveSettings = settings =>
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
 
 class Settings extends Component {
   constructor(props) {
@@ -35,23 +57,23 @@ class Settings extends Component {
   }
 
   componentDidMount() {
-    console.log('what');
-
-    const user = getSettingObject('user');
-    const key = getSettingObject('key');
-
-    const settings = {
-      ...defaultSettings,
-      ...user,
-      ...key,
-    };
-
+    const settings = loadSettings();
     this.setState(settings);
+  }
+
+  updateSettings = (settings) => {
+    this.setState(prevSettings => {
+      const newSettings = R.mergeDeepRight(prevSettings, settings);
+      saveSettings(newSettings);
+    });
   }
 
   render() {
     return (
-      <SettingsContext.Provider value={this.state}>
+      <SettingsContext.Provider value={{
+        settings: this.state,
+        updateSettings: this.updateSettings,
+      }}>
         {this.props.children}
       </SettingsContext.Provider>
     );
