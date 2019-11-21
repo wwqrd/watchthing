@@ -4,12 +4,15 @@ import ConnectionSettings from './ConnectionSettings';
 import Feeds from './Feeds';
 import './App.css';
 
+const Reset = ({ resetSettings }) =>
+  <button onClick={() => resetSettings()} type="button">Reset</button>;
+
 function App() {
   return (
     <Settings>
       <div className="App">
         <SettingsContext.Consumer>
-          {({ settings, updateSettings }) => {
+          {({ settings, updateSettings, resetSettings }) => {
             const { connection } = settings;
             const handleSaveConnectionSettings = connectionSettings =>
               updateSettings({ connection: connectionSettings });
@@ -18,20 +21,26 @@ function App() {
               return (
                 <div>
                   <h2>First run</h2>
+                  <p><em>Settings are saved in localStorage</em></p>
                   { connection &&
                     <ConnectionSettings
                       connectionSettings={connection}
                       onSave={handleSaveConnectionSettings}
                     />
                   }
-                  <p>Configure app with query string:</p>
-                  <p>{'/?user={ADAFRUIT_USER}&amp;key={ADAFRUIT_KEY}'}</p>
-                  <p><em>Key will be saved in localStorage</em></p>
+                  <p>Or configure app with query string:</p>
+                  <p>{'/?connection.user={ADAFRUIT_USER}&amp;connection.key={ADAFRUIT_KEY}'}</p>
+
                 </div>
               );
             }
 
-            return <Feeds connectionSettings={settings.connection} />;
+            return (
+              <div>
+                <Reset resetSettings={resetSettings} />
+                <Feeds connectionSettings={settings.connection} />
+              </div>
+            );
           }}
         </SettingsContext.Consumer>
       </div>

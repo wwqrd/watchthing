@@ -20,6 +20,7 @@ const defaultSettings = {
 const SettingsContext = React.createContext({
   settings: null,
   updateSettings: () => {},
+  resetSettings: () => {},
 });
 
 const loadSetting = (name) => {
@@ -46,8 +47,10 @@ const loadSettings = (initialSettings = defaultSettings) =>
     initialSettings,
   );
 
-const saveSettings = settings =>
+const saveSettings = (settings) => {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+  return settings;
+};
 
 class Settings extends Component {
   constructor(props) {
@@ -61,11 +64,18 @@ class Settings extends Component {
     this.setState(settings);
   }
 
-  updateSettings = (settings) => {
+  updateSettings = (settings, merge = true) => {
     this.setState(prevSettings => {
+      if (!merge) {
+        return saveSettings(settings);
+      }
       const newSettings = R.mergeDeepRight(prevSettings, settings);
-      saveSettings(newSettings);
+      return saveSettings(newSettings);
     });
+  }
+
+  resetSettings = (settings = defaultSettings) => {
+    this.updateSettings(settings, false);
   }
 
   render() {
@@ -73,6 +83,7 @@ class Settings extends Component {
       <SettingsContext.Provider value={{
         settings: this.state,
         updateSettings: this.updateSettings,
+        resetSettings: this.resetSettings,
       }}>
         {this.props.children}
       </SettingsContext.Provider>
