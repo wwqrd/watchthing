@@ -1,11 +1,9 @@
 import React from 'react';
 import Settings, { SettingsContext } from './Settings';
-import ConnectionSettings from './ConnectionSettings';
+import Welcome from './Welcome';
+import Reset from './Reset';
 import Feeds from './Feeds';
-import './App.css';
-
-const Reset = ({ resetSettings }) =>
-  <button onClick={() => resetSettings()} type="button">Reset</button>;
+import './App.scss';
 
 function App() {
   return (
@@ -19,27 +17,18 @@ function App() {
 
             if (!connection.user || !connection.key) {
               return (
-                <div>
-                  <h2>First run</h2>
-                  <p><em>Settings are saved in localStorage</em></p>
-                  { connection &&
-                    <ConnectionSettings
-                      connectionSettings={connection}
-                      onSave={handleSaveConnectionSettings}
-                    />
-                  }
-                  <p>Or configure app with query string:</p>
-                  <p>{'/?connection.user={ADAFRUIT_USER}&amp;connection.key={ADAFRUIT_KEY}'}</p>
-
-                </div>
+                <Welcome
+                  connectionSettings={connection}
+                  onSaveConnectionSettings={handleSaveConnectionSettings}
+                />
               );
             }
 
             return (
-              <div>
+              <React.Fragment>
                 <Reset resetSettings={resetSettings} />
                 <Feeds connectionSettings={settings.connection} />
-              </div>
+              </React.Fragment>
             );
           }}
         </SettingsContext.Consumer>

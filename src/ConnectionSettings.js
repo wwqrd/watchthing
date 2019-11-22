@@ -30,7 +30,9 @@ const ConnectionSettings = ({ settings: initialSettings, onSave }) => {
         Key:
         <input type="text" value={values.key || ''} name="key" onChange={handleChange} />
       </label>
-      <button type="button" onClick={handleSave}>Save</button>
+      <label>
+        <button type="button" onClick={handleSave}>Save</button>
+      </label>
     </div>
   );
 };

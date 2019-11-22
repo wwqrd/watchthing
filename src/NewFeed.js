@@ -46,16 +46,37 @@ const NewFeed = ({ onSave }) => {
     <div className={className}>
       <div className="form">
         <label>
-          Feed
-          <input type="text" placeholder="feed" value={feedOptions.feed} name="feed" onChange={handleChange} />
+          <span>Feed</span>
+          <input
+            type="text"
+            placeholder="feed"
+            value={feedOptions.feed}
+            name="feed"
+            onChange={handleChange}
+            style={{ width: 250 }}
+          />
         </label>
         <label>
-          Units
-          <input type="text" placeholder="unit" value={feedOptions.unit} name="unit" onChange={handleChange} />
+          <span>Units</span>
+          <input
+            type="text"
+            placeholder="unit"
+            value={feedOptions.unit}
+            name="unit"
+            onChange={handleChange}
+            style={{ width: 50 }}
+          />
         </label>
         <label>
-          Decimals
-          <input type="number" placeholder="decimals" value={feedOptions.decimals} name="decimals" onChange={handleChange} />
+          <span>Decimals</span>
+          <input
+          type="number"
+          placeholder="decimals"
+          value={feedOptions.decimals}
+          name="decimals"
+          onChange={handleChange}
+          style={{ width: 50 }}
+        />
         </label>
         <div className="controls">
           <button type="button" onClick={handleSave}>Add Feed</button>
