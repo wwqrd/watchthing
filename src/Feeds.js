@@ -4,35 +4,10 @@ import Feed from './Feed';
 import NewFeed from './NewFeed';
 import './Feeds.css';
 
-const initialFeeds = [
-];
-
 const bufferAsFloat = (buffer) =>
   Number.parseFloat(buffer.toString());
 
-const Feeds = ({ connectionSettings }) => {
-  const [firstLoad, setFirstLoad] = useState(true);
-
-  const [feeds, setFeeds] = useState(initialFeeds);
-
-  useEffect(() => {
-    if (!firstLoad) { return; }
-
-    console.log('load feeds');
-
-    setFirstLoad(false);
-
-    const storedFeeds = window.localStorage.getItem('feeds') && JSON.parse(window.localStorage.getItem('feeds'));
-
-    console.log(storedFeeds);
-
-    if(!storedFeeds) { return; }
-
-    console.log('setFeeds');
-
-    setFeeds(storedFeeds);
-  }, [firstLoad]);
-
+const Feeds = ({ connectionSettings, feeds, updateFeeds }) => {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -90,8 +65,7 @@ const Feeds = ({ connectionSettings }) => {
       feedOptions,
     ];
 
-    setFeeds(newFeeds);
-    window.localStorage.setItem('feeds', JSON.stringify(newFeeds));
+    updateFeeds(newFeeds);
   };
 
   return (
@@ -112,5 +86,9 @@ const Feeds = ({ connectionSettings }) => {
     </div>
   );
 }
+
+Feeds.defaultProps = {
+  feeds: [],
+};
 
 export default Feeds;

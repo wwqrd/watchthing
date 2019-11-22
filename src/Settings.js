@@ -8,6 +8,7 @@ const settings = [
   'connection.port',
   'connection.user',
   'connection.key',
+  'feeds',
 ];
 
 const defaultSettings = {
@@ -15,6 +16,7 @@ const defaultSettings = {
     host: 'io.adafruit.com',
     port: '8883',
   },
+  feeds: [],
 };
 
 const SettingsContext = React.createContext({

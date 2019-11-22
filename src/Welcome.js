@@ -2,14 +2,14 @@ import React from 'react';
 import ConnectionSettings from './ConnectionSettings';
 import './Welcome.scss';
 
-const Welcome = ({ connectionSettings, onSaveConnectionSettings }) => (
+const Welcome = ({ connectionSettings, onUpdateConnectionSettings }) => (
   <div className="welcome">
     <h2>First run</h2>
     <p><em>Settings are saved in localStorage</em></p>
     { connectionSettings &&
       <ConnectionSettings
         connectionSettings={connectionSettings}
-        onSave={onSaveConnectionSettings}
+        onSave={onUpdateConnectionSettings}
       />
     }
     <p>Or configure app with query string:</p>

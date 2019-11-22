@@ -11,15 +11,15 @@ function App() {
       <div className="App">
         <SettingsContext.Consumer>
           {({ settings, updateSettings, resetSettings }) => {
-            const { connection } = settings;
-            const handleSaveConnectionSettings = connectionSettings =>
-              updateSettings({ connection: connectionSettings });
+            const handleUpdate = key =>
+              value =>
+                updateSettings({ [key]: value });
 
-            if (!connection.user || !connection.key) {
+            if (!settings.connection.user || !settings.connection.key) {
               return (
                 <Welcome
-                  connectionSettings={connection}
-                  onSaveConnectionSettings={handleSaveConnectionSettings}
+                  connectionSettings={settings.connection}
+                  onUpdateConnectionSettings={handleUpdate('connection')}
                 />
               );
             }
@@ -27,7 +27,11 @@ function App() {
             return (
               <React.Fragment>
                 <Reset resetSettings={resetSettings} />
-                <Feeds connectionSettings={settings.connection} />
+                <Feeds
+                  connectionSettings={settings.connection}
+                  feeds={settings.feeds}
+                  updateFeeds={handleUpdate('feeds')}
+                />
               </React.Fragment>
             );
           }}
