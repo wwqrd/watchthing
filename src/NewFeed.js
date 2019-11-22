@@ -53,7 +53,7 @@ const NewFeed = ({ onSave }) => {
             value={feedOptions.feed}
             name="feed"
             onChange={handleChange}
-            style={{ width: 250 }}
+            style={{ width: 300 }}
           />
         </label>
         <label>
@@ -64,7 +64,7 @@ const NewFeed = ({ onSave }) => {
             value={feedOptions.unit}
             name="unit"
             onChange={handleChange}
-            style={{ width: 50 }}
+            style={{ width: 80 }}
           />
         </label>
         <label>
@@ -75,13 +75,13 @@ const NewFeed = ({ onSave }) => {
           value={feedOptions.decimals}
           name="decimals"
           onChange={handleChange}
-          style={{ width: 50 }}
+          style={{ width: 80 }}
         />
         </label>
-        <div className="controls">
+        <label>
           <button type="button" onClick={handleSave}>Add Feed</button>
           <button className="cancel" type="button" onClick={handleCancel}>Cancel</button>
-        </div>
+        </label>
       </div>
 
       <div className="open">
