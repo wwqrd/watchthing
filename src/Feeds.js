@@ -1,7 +1,7 @@
 import React from 'react';
 import Feed from './Feed';
 import NewFeed from './NewFeed';
-import useFeedData from './useFeedData';
+import useFeedData from './hooks/useFeedData';
 import './Feeds.css';
 
 const Feeds = ({ connectionSettings, feeds, updateFeeds }) => {

@@ -1,17 +1,5 @@
-import React, { useState } from 'react';
-
-const useForm = (initialValues) => {
-  const [values, setValue] = useState(initialValues);
-
-  const handleInputChange = (e) => {
-    const name = e.target.getAttribute('name');
-    const value = e.target.value;
-
-    setValue(prev => ({ ...prev, [name]: value }));
-  };
-
-  return [values, handleInputChange];
-};
+import React from 'react';
+import useForm from './hooks/useForm';
 
 const ConnectionSettings = ({ settings: initialSettings, onSave }) => {
   const [values, handleChange] = useForm(initialSettings);

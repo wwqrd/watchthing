@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useForm from './hooks/useForm';
+import useToggle from './hooks/useToggle';
 import './NewFeed.scss';
 
 const initialFeed = {
@@ -8,84 +10,69 @@ const initialFeed = {
 };
 
 const NewFeed = ({ onSave }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen,, open, close] = useToggle(false);
+  const [form, setForm, inputHandler] = useForm(initialFeed);
 
-  const [feedOptions, setFeedOptions] = useState(initialFeed);
+  const handleSave = (e) => {
+    e.preventDefault();
 
-  const handleChange = (e) => {
-    const target = e.target;
-    const name = target.getAttribute('name');
-    const type = target.getAttribute('type');
-    const value = type === 'number' ?
-      parseInt(target.value) :
-      target.value;
-
-    setFeedOptions((f) => ({
-      ...f,
-      [name]: value,
-    }));
-  };
-
-  const handleSave = () => {
-    onSave(feedOptions);
-    setFeedOptions(initialFeed);
-    setIsOpen(false);
+    onSave(form);
+    setForm(initialFeed);
+    close();
   }
 
-  const handleOpen = () => {
-    setIsOpen(true);
-  }
-
-  const handleCancel = () => {
-    setIsOpen(false);
-  }
+  const handleOpen = open;
+  const handleCancel = close;
+  const handleChange = inputHandler;
 
   const className = isOpen ? 'new-feed new-feed--is-open' : 'new-feed';
 
   return (
     <div className={className}>
       <div className="form">
-        <label>
-          <span>Feed</span>
-          <input
-            type="text"
-            placeholder="feed"
-            value={feedOptions.feed}
-            name="feed"
-            onChange={handleChange}
-            style={{ width: 300 }}
-          />
-        </label>
-        <label>
-          <span>Units</span>
-          <input
-            type="text"
-            placeholder="unit"
-            value={feedOptions.unit}
-            name="unit"
+        <form>
+          <label>
+            <span>Feed</span>
+            <input
+              type="text"
+              placeholder="feed"
+              value={form.feed}
+              name="feed"
+              onChange={handleChange}
+              style={{ width: 300 }}
+            />
+          </label>
+          <label>
+            <span>Units</span>
+            <input
+              type="text"
+              placeholder="unit"
+              value={form.unit}
+              name="unit"
+              onChange={handleChange}
+              style={{ width: 80 }}
+            />
+          </label>
+          <label>
+            <span>Decimals</span>
+            <input
+            type="number"
+            placeholder="decimals"
+            value={form.decimals}
+            name="decimals"
             onChange={handleChange}
             style={{ width: 80 }}
           />
-        </label>
-        <label>
-          <span>Decimals</span>
-          <input
-          type="number"
-          placeholder="decimals"
-          value={feedOptions.decimals}
-          name="decimals"
-          onChange={handleChange}
-          style={{ width: 80 }}
-        />
-        </label>
-        <label>
-          <button type="button" onClick={handleSave}>Add Feed</button>
-          <button className="cancel" type="button" onClick={handleCancel}>Cancel</button>
-        </label>
+          </label>
+          <label>
+            <button onClick={handleSave}>Add Feed</button>
+            <button className="cancel" type="button" onClick={handleCancel}>Cancel</button>
+          </label>
+        </form>
       </div>
 
       <div className="open">
-        <button type="button" onClick={handleOpen}>Add new feed</button>
+        <button onClick={handleOpen}>Add new feed</button>
       </div>
     </div>
   );
