@@ -1,11 +1,15 @@
 import React from 'react';
 import Feed from './Feed';
 import NewFeed from './NewFeed';
-import useMQTTData from './useMQTTData';
+import useFeedData from './useFeedData';
 import './Feeds.css';
 
 const Feeds = ({ connectionSettings, feeds, updateFeeds }) => {
-  const [data] = useMQTTData({ connectionSettings, topics: feeds });
+  console.log({ connectionSettings });
+
+  const topics = feeds.map(({ feed }) => feed);
+
+  const [data] = useFeedData(connectionSettings, topics);
 
   const handleNewFeed = (feedOptions) => {
     console.log(feeds);
