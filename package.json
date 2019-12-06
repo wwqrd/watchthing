@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "debug": "^4.1.1",
     "mqtt": "^3.0.0",
     "node-sass": "^4.13.0",
     "ramda": "^0.26.1",

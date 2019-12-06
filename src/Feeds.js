@@ -5,15 +5,10 @@ import useFeedData from './useFeedData';
 import './Feeds.css';
 
 const Feeds = ({ connectionSettings, feeds, updateFeeds }) => {
-  console.log({ connectionSettings });
-
   const topics = feeds.map(({ feed }) => feed);
-
   const [data] = useFeedData(connectionSettings, topics);
 
   const handleNewFeed = (feedOptions) => {
-    console.log(feeds);
-
     const newFeeds = [
       ...feeds,
       feedOptions,

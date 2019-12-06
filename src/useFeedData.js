@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 import mqtt from 'mqtt';
+import debug from 'debug';
+
+const log = debug('watchthing:mqtt');
+log.message = debug('watchthing:mqtt:message');
+log.error = debug('watchthing:mqtt:error');
 
 const bufferAsFloat = (buffer) =>
   Number.parseFloat(buffer.toString());
@@ -16,21 +21,21 @@ const useFeedData = (connectionSettings, topics) => {
       return;
     };
 
-    console.log(`Connecting to ${host}`);
+    log(`Connecting to ${host}`);
     const client = mqtt.connect(`mqtts://${host}`, { username: user, password: key });
 
     client.on('error', (e) => {
-      console.log('ERROR', e);
-      client.end();
+      log.error(e);
+      // client.end();
     })
 
     const disconnect = function() {
-      console.log('disconnect');
+      log('Disconnecting');
       client.end();
     };
 
     function handleMessage(topic, message) {
-      console.log('message', topic, message.toString());
+      log.message(`${topic}: ${message.toString()}`);
 
       setData(d => ({
         ...d,
@@ -40,13 +45,17 @@ const useFeedData = (connectionSettings, topics) => {
     }
 
     client.on('connect', function () {
-      console.log(`Connected to ${host}`);
+      log(`Connected to ${host}`);
 
       topics.forEach((topic) => {
-        console.log(`subscribe to ${topic}`);
+        log(`subscribe to ${topic}`);
         client.subscribe(topic);
         client.publish(`${topic}/get`);
       })
+    });
+
+    client.on('disconnect', () => {
+      log(`Disconnected from ${host}`);
     });
 
     client.on('message', handleMessage);
