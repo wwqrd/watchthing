@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useForm from './hooks/useForm';
+import useToggle from './hooks/useToggle';
 import './NewFeed.scss';
 
 const initialFeed = {
@@ -8,36 +10,21 @@ const initialFeed = {
 };
 
 const NewFeed = ({ onSave }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const [feedOptions, setFeedOptions] = useState(initialFeed);
-
-  const handleChange = (e) => {
-    const target = e.target;
-    const name = target.getAttribute('name');
-    const type = target.getAttribute('type');
-    const value = type === 'number' ?
-      parseInt(target.value) :
-      target.value;
-
-    setFeedOptions((f) => ({
-      ...f,
-      [name]: value,
-    }));
-  };
+  const [isOpen,, open, close] = useToggle(false);
+  const [feedOptions, handleChange] = useForm(initialFeed);
 
   const handleSave = () => {
     onSave(feedOptions);
-    setFeedOptions(initialFeed);
-    setIsOpen(false);
+    handleChange(initialFeed);
+    close();
   }
 
   const handleOpen = () => {
-    setIsOpen(true);
+    open();
   }
 
   const handleCancel = () => {
-    setIsOpen(false);
+    close();
   }
 
   const className = isOpen ? 'new-feed new-feed--is-open' : 'new-feed';
