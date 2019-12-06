@@ -1,5 +1,5 @@
 import React from 'react';
-import useForm from './hooks';
+import useForm from './hooks/useForm';
 
 const ConnectionSettings = ({ settings: initialSettings, onSave }) => {
   const [values, handleChange] = useForm(initialSettings);
