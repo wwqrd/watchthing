@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState } from 'react';import debug from 'debug';
+
+const log = debug('watchthing:form');
+log.set = debug('watchthing:form:set');
 
 const useForm = (initialValues) => {
   const [values, setValue] = useState(initialValues);
@@ -10,6 +13,8 @@ const useForm = (initialValues) => {
     const value = type === 'number' ?
       parseInt(target.value) :
       target.value;
+
+    log.set(`${name}[${type}] = "${value}"`);
 
     setValue(prev => ({ ...prev, [name]: value }));
   };
