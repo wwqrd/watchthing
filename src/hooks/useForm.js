@@ -6,8 +6,9 @@ log.set = debug('watchthing:form:set');
 const useForm = (initialValues) => {
   const [values, setValue] = useState(initialValues);
 
-  const handleChange = (e) => {
+  const inputHandler = (e) => {
     const target = e.target;
+    if (!target) { return; }
     const name = target.getAttribute('name');
     const type = target.getAttribute('type');
     const value = type === 'number' ?
@@ -19,7 +20,7 @@ const useForm = (initialValues) => {
     setValue(prev => ({ ...prev, [name]: value }));
   };
 
-  return [values, handleChange];
+  return [values, setValue, inputHandler];
 };
 
 export default useForm;
