@@ -1,0 +1,46 @@
+.new-feed {
+
+  .form {
+    background: white;
+    padding: 0 1rem;
+
+  }
+  .open, .cancel {
+    display: none;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .form {
+      display: none;
+      padding: 1rem;
+    }
+
+    .open {
+      display: block;
+
+      button {
+        margin: 0;
+        width: 100%;
+      }
+    }
+
+    .cancel {
+      display: initial;
+    }
+
+    &--is-open {
+      .form {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 200;
+      }
+
+      .open {
+        display: none;
+      }
+    }
+  }
+}
