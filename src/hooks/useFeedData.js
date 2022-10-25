@@ -21,10 +21,11 @@ const useFeedData = (connectionSettings, topics) => {
       return;
     };
 
-    log(`Connecting to ${host}`);
-    const client = mqtt.connect(`mqtts://${host}`, { username: user, password: key });
+    console.log(`Connecting to ${host}`);
+    const client = mqtt.connect(`wss://${host}`, { username: user, password: key });
 
     client.on('error', (e) => {
+      console.error(e);
       log.error(e);
       // client.end();
     })
@@ -45,12 +46,12 @@ const useFeedData = (connectionSettings, topics) => {
     }
 
     client.on('connect', function () {
-      log(`Connected to ${host}`);
+      console.log(`Connected to ${host}`);
 
       topics.forEach((topic) => {
-        log(`subscribe to ${topic}`);
+        console.log(`subscribe to ${topic}`);
         client.subscribe(topic);
-        client.publish(`${topic}/get`);
+        // client.publish(`${topic}/get`);
       })
     });
 

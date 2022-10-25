@@ -26,7 +26,7 @@ type SettingsProps = {
 const defaultSettings = {
   connection: {
     host: 'io.adafruit.com',
-    port: '8883',
+    port: '443',
   },
   feeds: [],
 };

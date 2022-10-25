@@ -2,12 +2,12 @@ import React, { FC } from 'react';
 import useForm from './hooks/useForm';
 
 type ConnectionSettingsProps = {
-  settings: any;
+  settings: Record<string, any>;
   onSave: (values: any) => void;
 };
 
 const ConnectionSettings:FC<ConnectionSettingsProps> = ({ settings: initialSettings, onSave }) => {
-  const [values, handleChange] = useForm(initialSettings);
+  const [values, _, handleChange] = useForm(initialSettings);
 
   const handleSave = () => {
     onSave(values);

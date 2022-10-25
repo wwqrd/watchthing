@@ -8,7 +8,7 @@ const Welcome = ({ connectionSettings, onUpdateConnectionSettings }: { connectio
     <p><em>Settings are saved in localStorage</em></p>
     { connectionSettings &&
       <ConnectionSettings
-        connectionSettings={connectionSettings ?? {}}
+        settings={connectionSettings ?? {}}
         onSave={onUpdateConnectionSettings}
       />
     }
