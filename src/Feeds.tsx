@@ -15,13 +15,15 @@ const Feeds:FC<FeedsProps> = ({ connectionSettings, feeds, updateFeeds }) => {
   const [data] = useFeedData(connectionSettings, topics);
 
   const handleNewFeed = (feedOptions: any) => {
+
     const newFeeds = [
-      ...feeds,
+      ...feeds.filter(({ feed }) => feed !== feedOptions.feed),
       feedOptions,
     ];
 
     updateFeeds(newFeeds);
   };
+
 
   return (
     <div className="feeds">
