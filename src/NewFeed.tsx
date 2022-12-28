@@ -1,31 +1,33 @@
-import React, { MouseEventHandler } from 'react';
-import useForm from './hooks/useForm';
-import useToggle from './hooks/useToggle';
-import './NewFeed.scss';
+import { MouseEventHandler, useContext } from "react";
+import useForm from "./hooks/useForm";
+import useToggle from "./hooks/useToggle";
+import { Input } from "./Input";
+import "./NewFeed.scss";
+import { SettingsContext } from "./Settings";
 
 const initialFeed = {
-  feed: '',
-  unit: '',
+  feed: "",
+  unit: "",
   decimals: 0,
 };
 
 const NewFeed = ({ onSave }: { onSave: (value: any) => void }) => {
-  const [isOpen,, open, close] = useToggle(false);
-  const [form, setForm, inputHandler] = useForm(initialFeed);
+  const { settings } = useContext(SettingsContext);
+  const [isOpen, , handleOpen, handleClose] = useToggle(false);
+  const [form, setForm, handleChange] = useForm(initialFeed);
 
   const handleSave: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault();
 
-    onSave(form);
+    onSave({
+      ...form,
+      feed: `${settings.connection.user}/feeds/${form.feed}`,
+    });
     setForm(initialFeed);
-    close();
-  }
+    handleClose();
+  };
 
-  const handleOpen = open;
-  const handleCancel = close;
-  const handleChange = inputHandler;
-
-  const className = isOpen ? 'new-feed new-feed--is-open' : 'new-feed';
+  const className = isOpen ? "new-feed new-feed--is-open" : "new-feed";
 
   return (
     <div className={className}>
@@ -33,13 +35,13 @@ const NewFeed = ({ onSave }: { onSave: (value: any) => void }) => {
         <form>
           <label>
             <span>Feed</span>
-            <input
-              type="text"
-              placeholder="feed"
-              value={form.feed}
+            <Input
               name="feed"
+              placeholder="feed"
+              prepend={`${settings.connection.user}/feeds/`}
+              value={form.feed}
               onChange={handleChange}
-              style={{ width: 300 }}
+              style={{ width: 150 }}
             />
           </label>
           <label>
@@ -56,17 +58,19 @@ const NewFeed = ({ onSave }: { onSave: (value: any) => void }) => {
           <label>
             <span>Decimals</span>
             <input
-            type="number"
-            placeholder="decimals"
-            value={form.decimals}
-            name="decimals"
-            onChange={handleChange}
-            style={{ width: 80 }}
-          />
+              type="number"
+              placeholder="decimals"
+              value={form.decimals}
+              name="decimals"
+              onChange={handleChange}
+              style={{ width: 80 }}
+            />
           </label>
           <label>
             <button onClick={handleSave}>Add Feed</button>
-            <button className="cancel" type="button" onClick={handleCancel}>Cancel</button>
+            <button className="cancel" type="button" onClick={handleClose}>
+              Cancel
+            </button>
           </label>
         </form>
       </div>
@@ -76,6 +80,6 @@ const NewFeed = ({ onSave }: { onSave: (value: any) => void }) => {
       </div>
     </div>
   );
-}
+};
 
 export default NewFeed;

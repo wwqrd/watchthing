@@ -1,0 +1,24 @@
+.Input {
+  display: inline-block;
+  border: 2px solid black;
+  line-height: 2rem;
+  font-size: 1rem;
+  margin: 0 0 0 1rem;
+  outline: none;
+  padding: 0 1rem;
+
+  input {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    max-width: 100%;
+    margin: 0;
+
+    span {
+      display: inline-block;
+    }
+  }
+}
